@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.loafer.stu.dao.StuDao">
+ 	<select id="findStuByUsername" parameterType="java.lang.String" resultType="com.loafer.stu.beans.entity.Student" >
+ 		select 
+ 			s.studentId,
+ 			s.studentNo,
+ 			s.userName,
+ 			s.password,
+ 			s.studentName,
+ 			s.birthday,
+ 			s.gender,
+ 			s.score,
+ 			c.clazzId,
+ 			c.clazzNo,
+ 			c.classroom 
+ 		from  sys_student s join sys_clazz c
+ 			on s.clazzId = c.clazzId
+ 		where
+ 			s.userName=#{userName}
+ 	</select>
+ 	<select id="findAll" resultMap="stuMap" >
+ 		select 
+ 			s.studentId,
+ 			s.studentNo,
+ 			s.userName,
+ 			s.password,
+ 			s.studentName,
+ 			s.birthday,
+ 			s.gender,
+ 			s.score,
+ 			c.clazzId,
+ 			c.clazzNo,
+ 			c.classroom 
+ 		from  sys_student s join sys_clazz c
+ 			on s.clazzId = c.clazzId
+ 	</select>
+ 	<select id="findAppListByPageQuery" parameterType="java.util.Map" resultMap="stuMap">
+ 		select 
+ 			s.studentId,
+ 			s.studentNo,
+ 			s.userName,
+ 			s.password,
+ 			s.studentName,
+ 			s.birthday,
+ 			s.gender,
+ 			s.score,
+ 			c.clazzId,
+ 			c.clazzNo,
+ 			c.classroom 
+ 		from  sys_student s join sys_clazz c
+ 			on s.clazzId = c.clazzId
+ 		limit #{begin},#{size}
+ 	</select>
+ 	<delete id="deleteStuById" parameterType="java.lang.Long" >
+ 		delete from sys_student where studentId=#{studentId}
+ 	</delete>
+ 	<resultMap type="com.loafer.stu.beans.entity.Student" id="stuMap">
+ 		<id property="studentId" column="studentId"/>
+ 		<result property="studentNo" column="studentNo"/>
+ 		<result property="userName" column="userName"/>
+ 		<result property="password" column="password"/>
+ 		<result property="studentName" column="studentName"/>
+ 		<result property="birthday" column="birthday"/>
+ 		<result property="gender" column="gender"/>
+ 		<result property="score" column="score"/>
+ 	<association property="clazz" javaType="com.loafer.stu.beans.entity.Clazz">
+ 		<id property="clazzId" column="clazzId"/>
+ 		<result property="clazzNo" column="clazzNo"/>
+ 		<result property="classroom" column="classroom"/>
+ 	</association>
+ 	</resultMap>
+ </mapper>

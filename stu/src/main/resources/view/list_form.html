@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>学生管理</h1>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>用户名</th>
+				<th>姓名</th>
+				<th>生日</th>
+				<th>性别</th>
+				<th>成绩</th>
+				<th>所在班级</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+			<tbody th:each="stu:${page.list}">
+			<tr>
+				<td>
+					<label th:text="${stu.studentNo}"></label>
+				</td>
+				<td>
+					<label th:text="${stu.userName}"></label>
+				</td>	
+				<td>
+					<label th:text="${stu.studentName}"></label>
+				</td>
+				<td>
+					<label  th:text="${#dates.format(stu.birthday, 'yyyy-MM-dd')}"></label>
+				</td>
+				<td>
+					<label th:text="${stu.gender}"></label>
+				</td>
+				<td>
+					<label th:text="${stu.score}"></label>
+				</td>
+				
+				<td>
+					<label th:text="${stu.clazz.classroom}"></label>
+				</td>
+				
+				<td>
+					<a th:href="|delete?studentId=${stu.studentId}|">删除</a>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="8" align="right">
+						<a href="list?pageNum=1">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						<label th:if="${page.pageNum}==1">上一页&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<label th:unless="${page.pageNum}==1">
+							<a th:href="|list?pageNum=${page.pageNum-1}|">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						</label>
+						<label th:if="${page.pageNum}==${page.totalPage}">下一页&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<label th:unless="${page.pageNum}==${page.totalPage}">
+							<a th:href="|list?pageNum=${page.pageNum+1}|">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						</label>
+						<a th:href="|list?pageNum=${page.totalPage}|">末页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</td>
+				</tr>
+		</tfoot>
+	</table>
+</body>
+</html>
